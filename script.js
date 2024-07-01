@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let offsetX, offsetY; // Taşıma işlemi için ofset değerleri
   let zoomLevel = 1; // Yakınlaştırma düzeyi
   const zoomStep = 0.2; // Her adımda yapılan büyüme/küçülme miktarı
+  let mousedown = false; // Fare tıklama durumu
 
   // Izgara oluştur butonu
   createGridBtn.addEventListener('click', function() {
@@ -87,11 +88,43 @@ document.addEventListener("DOMContentLoaded", function() {
         pixel.style.width = cellSize + 'px';
         pixel.style.height = cellSize + 'px';
         pixel.style.backgroundColor = '#ffffff'; // Varsayılan başlangıç rengi
-        pixel.addEventListener('mouseover', function() {
-          // İleride gerekirse işlevsellik eklenebilir
+
+        // Fare tıklama ve sürükleme işlemleri
+        pixel.addEventListener('mousedown', function() {
+          mousedown = true;
+          handlePixelColor(this);
         });
+
+        pixel.addEventListener('mouseup', function() {
+          mousedown = false;
+        });
+
+        pixel.addEventListener('mousemove', function() {
+          if (mousedown) {
+            handlePixelColor(this);
+          }
+        });
+
         canvasContainer.appendChild(pixel);
       }
+    }
+  }
+
+  // Piksel rengini işleme
+  function handlePixelColor(pixel) {
+    switch (currentTool) {
+      case 'pen':
+        pixel.style.backgroundColor = '#000000'; // Kalem rengi
+        break;
+      case 'eraser':
+        pixel.style.backgroundColor = '#ffffff'; // Silgi rengi
+        break;
+      case 'line':
+        // İleride gerekirse çizgi çizme işlemi eklenebilir
+        break;
+      case 'select':
+        // İleride gerekirse seçim işlemi eklenebilir
+        break;
     }
   }
 
