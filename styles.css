@@ -74,6 +74,8 @@ h1 {
   grid-template-columns: repeat(16, 1fr); /* Varsayılan başlangıç değeri */
   gap: 1px;
   margin: 0 auto;
+  position: relative; /* Pozisyonu ayarla */
+  z-index: 0; /* Varsayılan z-index */
 }
 
 .pixel {
@@ -81,6 +83,12 @@ h1 {
   height: 20px;
   background-color: #ffffff;
   border: 1px solid #ccc;
+  box-sizing: border-box; /* İçeriği sınırın içine yerleştir */
+  user-select: none; /* Kullanıcının seçimini engelle */
+}
+
+.pixel:hover {
+  border-color: #4CAF50; /* Üzerine gelindiğinde sınır rengi */
 }
 
 #color-palette {
