@@ -1,0 +1,120 @@
+/* Temel stil ayarları */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+#tools {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#tools button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+}
+
+#tools button:hover {
+  background-color: #45a049;
+}
+
+#grid-settings {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#grid-settings label {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+#grid-size {
+  padding: 8px;
+  font-size: 16px;
+}
+
+#create-grid {
+  padding: 8px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #008CBA;
+  color: white;
+}
+
+#create-grid:hover {
+  background-color: #007A99;
+}
+
+#canvas-container {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr); /* Varsayılan başlangıç değeri */
+  gap: 1px;
+  margin: 0 auto;
+}
+
+.pixel {
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+#color-palette {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#zoom-level {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Seçilen pikseller için stil */
+.pixel.selected {
+  border-color: #4CAF50;
+}
+
+/* Fare tıklama ve sürükleme işaretçisi */
+.canvas-container {
+  cursor: pointer;
+}
+
+/* Yakınlaştırma ve uzaklaştırma düğmeleri */
+#zoom-in, #zoom-out {
+  padding: 8px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #008CBA;
+  color: white;
+}
+
+#zoom-in:hover, #zoom-out:hover {
+  background-color: #007A99;
+}
