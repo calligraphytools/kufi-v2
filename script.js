@@ -1,150 +1,132 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const canvasContainer = document.getElementById('canvas-container');
-  const colorPalette = document.getElementById('color-palette');
-  const gridSizeSelect = document.getElementById('grid-size');
-  const createGridBtn = document.getElementById('create-grid');
-  const penToolBtn = document.getElementById('pen-tool');
-  const eraserToolBtn = document.getElementById('eraser-tool');
-  const lineToolBtn = document.getElementById('line-tool');
-  const selectToolBtn = document.getElementById('select-tool');
-  const zoomInBtn = document.getElementById('zoom-in');
-  const zoomOutBtn = document.getElementById('zoom-out');
-  const zoomLevelDisplay = document.getElementById('zoom-level');
+  const canvas = document.querySelector(".canvas");
+  const penButton = document.getElementById("pen");
+  const eraserButton = document.getElementById("eraser");
+  const lineButton = document.getElementById("line");
+  const squareButton = document.getElementById("square");
+  const colorPicker = document.getElementById("color-picker");
+  const saveButton = document.getElementById("save");
+  const gridInput = document.getElementById("grid-size");
 
-  let numRows = 16; // Varsayılan başlangıç değeri
-  let numCols = 16; // Varsayılan başlangıç değeri
-  let currentTool = 'pen'; // Varsayılan olarak kalem aracı seçili
-  let selectedPixels = []; // Seçilen piksellerin listesi
-  let offsetX, offsetY; // Taşıma işlemi için ofset değerleri
-  let zoomLevel = 1; // Yakınlaştırma düzeyi
-  const zoomStep = 0.2; // Her adımda yapılan büyüme/küçülme miktarı
-  let mousedown = false; // Fare tıklama durumu
+  let isDrawing = false;
 
-  // Izgara oluştur butonu
-  createGridBtn.addEventListener('click', function() {
-    const selectedSize = gridSizeSelect.value;
-    numRows = selectedSize;
-    numCols = selectedSize;
-    createGrid();
-  });
+  // Varsayılan ızgara oluşturma
+  createGrid(20);
 
-  // Kalem aracı seçimi
-  penToolBtn.addEventListener('click', function() {
-    currentTool = 'pen';
-    // İleride gerekirse ekstra işlemler eklenebilir
-  });
+  // İzgara oluşturma fonksiyonu
+  function createGrid(size) {
+    canvas.innerHTML = ""; // Önceki izgarayı temizle
 
-  // Silgi aracı seçimi
-  eraserToolBtn.addEventListener('click', function() {
-    currentTool = 'eraser';
-    // İleride gerekirse ekstra işlemler eklenebilir
-  });
-
-  // Çizgi çekme aracı seçimi
-  lineToolBtn.addEventListener('click', function() {
-    currentTool = 'line';
-    // İleride gerekirse ekstra işlemler eklenebilir
-  });
-
-  // Seçim aracı seçimi
-  selectToolBtn.addEventListener('click', function() {
-    currentTool = 'select';
-    clearSelection(); // Mevcut seçimi temizle
-  });
-
-  // Yakınlaştırma aracı
-  zoomInBtn.addEventListener('click', function() {
-    zoomLevel += zoomStep;
-    applyZoom();
-  });
-
-  // Uzaklaştırma aracı
-  zoomOutBtn.addEventListener('click', function() {
-    if (zoomLevel > zoomStep) {
-      zoomLevel -= zoomStep;
-      applyZoom();
+    for (let i = 0; i < size * size; i++) {
+      const pixel = document.createElement("div");
+      pixel.addEventListener("mousedown", activatePixel);
+      pixel.addEventListener("mouseover", drawPixel);
+      canvas.appendChild(pixel);
     }
-  });
-
-  // Yakınlaştırma düzeyini uygula
-  function applyZoom() {
-    canvasContainer.style.transform = `scale(${zoomLevel})`;
-    zoomLevelDisplay.textContent = `Yakınlaştırma Düzeyi: ${Math.round(zoomLevel * 100)}%`;
+    canvas.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   }
 
-  // Izgara oluşturma fonksiyonu
-  function createGrid() {
-    canvasContainer.innerHTML = ''; // Önceki ızgarayı temizle
-
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-
-    const cellSize = Math.min(screenWidth / numCols, screenHeight / numRows);
-
-    for (let i = 0; i < numRows; i++) {
-      for (let j = 0; j < numCols; j++) {
-        const pixel = document.createElement('div');
-        pixel.classList.add('pixel');
-        pixel.style.width = cellSize + 'px';
-        pixel.style.height = cellSize + 'px';
-        pixel.style.backgroundColor = '#ffffff'; // Varsayılan başlangıç rengi
-
-        // Fare tıklama ve sürükleme işlemleri
-        pixel.addEventListener('mousedown', function() {
-          mousedown = true;
-          handlePixelColor(this);
-        });
-
-        pixel.addEventListener('mouseup', function() {
-          mousedown = false;
-        });
-
-        pixel.addEventListener('mousemove', function() {
-          if (mousedown) {
-            handlePixelColor(this);
-          }
-        });
-
-        canvasContainer.appendChild(pixel);
-      }
+  // Piksel etkinleştirme
+  function activatePixel() {
+    this.classList.toggle("active");
+    if (isDrawing) {
+      this.classList.add("active");
     }
   }
 
-  // Piksel rengini işleme
-  function handlePixelColor(pixel) {
-    switch (currentTool) {
-      case 'pen':
-        pixel.style.backgroundColor = '#000000'; // Kalem rengi
-        break;
-      case 'eraser':
-        pixel.style.backgroundColor = '#ffffff'; // Silgi rengi
-        break;
-      case 'line':
-        // İleride gerekirse çizgi çizme işlemi eklenebilir
-        break;
-      case 'select':
-        // İleride gerekirse seçim işlemi eklenebilir
-        break;
+  // Piksel çizme işlevi
+  function drawPixel() {
+    if (isDrawing) {
+      this.classList.add("active");
     }
   }
 
-  // Piksel seçimini işleme
-  function handleSelection(pixel, row, col) {
-    if (!selectedPixels.includes(pixel)) {
-      pixel.classList.add('selected');
-      selectedPixels.push(pixel);
-    } else {
-      pixel.classList.remove('selected');
-      selectedPixels = selectedPixels.filter(item => item !== pixel);
-    }
-  }
+  // Fare olayları dinleyicileri
+  canvas.addEventListener("mousedown", function() {
+    isDrawing = true;
+  });
 
-  // Mevcut seçimi temizle
-  function clearSelection() {
-    selectedPixels.forEach(pixel => {
-      pixel.classList.remove('selected');
+  canvas.addEventListener("mouseup", function() {
+    isDrawing = false;
+  });
+
+  // Araç butonları olayları
+  penButton.addEventListener("click", function() {
+    isDrawing = true;
+  });
+
+  eraserButton.addEventListener("click", function() {
+    isDrawing = true;
+    colorPicker.value = "#ffffff"; // Beyaz rengi silgi olarak ayarla
+  });
+
+  lineButton.addEventListener("click", function() {
+    isDrawing = true;
+    canvas.addEventListener("click", drawLine);
+  });
+
+  squareButton.addEventListener("click", function() {
+    isDrawing = true;
+    canvas.addEventListener("click", drawSquare);
+  });
+
+  // Çizgi çizme işlevi
+  function drawLine(event) {
+    const startX = event.pageX - canvas.offsetLeft;
+    const startY = event.pageY - canvas.offsetTop;
+
+    canvas.removeEventListener("click", drawLine);
+
+    canvas.addEventListener("click", function drawEndLine(event) {
+      const endX = event.pageX - canvas.offsetLeft;
+      const endY = event.pageY - canvas.offsetTop;
+
+      const ctx = canvas.getContext("2d");
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.strokeStyle = colorPicker.value;
+      ctx.stroke();
+
+      canvas.removeEventListener("click", drawEndLine);
     });
-    selectedPixels = [];
   }
 
+  // Kare çizme işlevi
+  function drawSquare(event) {
+    const startX = event.pageX - canvas.offsetLeft;
+    const startY = event.pageY - canvas.offsetTop;
+    const squareSize = 30; // Kare boyutu
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = colorPicker.value;
+    ctx.fillRect(startX, startY, squareSize, squareSize);
+  }
+
+  // Renk seçici olayı
+  colorPicker.addEventListener("input", function() {
+    let color = colorPicker.value;
+    canvas.querySelectorAll(".active").forEach(pixel => {
+      pixel.style.backgroundColor = color;
+    });
+  });
+
+  // Kaydetme işlevi
+  saveButton.addEventListener("click", function() {
+    const canvasElement = document.querySelector('.canvas');
+    const ctx = canvasElement.getContext('2d');
+    const imageData = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height);
+
+    // Kaydetme işlemi
+    const link = document.createElement('a');
+    link.download = 'pixel_art.png';
+    link.href = canvasElement.toDataURL();
+    link.click();
+  });
+
+  // İzgara boyutu değiştirme işlevi
+  gridInput.addEventListener("change", function() {
+    let gridSize = parseInt(gridInput.value);
+    createGrid(gridSize);
+  });
 });
