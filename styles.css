@@ -29,18 +29,27 @@ body {
 .canvas {
   flex-grow: 1;
   display: grid;
-  grid-template-columns: repeat(20, 1fr); /* Varsayılan ızgara */
-  gap: 1px; /* Kareler arası boşluk */
+  border: 2px solid #ccc;
 }
 
 .canvas div {
   width: 100%;
   height: 0;
-  padding-bottom: 100%; /* Kareler kare olacak şekilde */
+  padding-bottom: 100%;
   background-color: transparent;
-  border: 1px solid #eee; /* Kare kenarlıkları */
+  border: 1px solid #eee;
 }
 
 .canvas div.active {
-  background-color: #000; /* Aktif kare rengi */
+  background-color: #000;
+}
+
+input[type="color"] {
+  margin: 10px 0;
+  width: 80%;
+}
+
+input[type="number"] {
+  margin: 10px 0;
+  width: 80%;
 }
