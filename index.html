@@ -3,42 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gelişmiş Piksel Art Uygulaması</title>
+<title>Piksel Art Uygulaması</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-  <h1>Gelişmiş Piksel Art Uygulaması</h1>
-  <div id="tools">
-    <button id="pen-tool">Kalem</button>
-    <button id="eraser-tool">Silgi</button>
-    <button id="line-tool">Çizgi Çek</button>
-    <button id="select-tool">Seçim</button>
-    <button id="zoom-in">Yakınlaştır</button>
-    <button id="zoom-out">Uzaklaştır</button>
+  <div class="container">
+    <div class="tools">
+      <!-- Araçlar paneli -->
+      <button id="pen">Kalem</button>
+      <button id="eraser">Silgi</button>
+      <button id="line">Çizgi</button>
+      <button id="square">Kare Çiz</button>
+      <input type="color" id="color-picker" value="#000000"> <!-- Renk seçici -->
+      <button id="save">Kaydet</button>
+    </div>
+    <div class="canvas">
+      <!-- Tasarım alanı -->
+    </div>
   </div>
-  <div id="grid-settings">
-    <label for="grid-size">Izgara Boyutu:</label>
-    <select id="grid-size">
-      <option value="16">16x16</option>
-      <option value="32">32x32</option>
-      <option value="64">64x64</option>
-      <option value="128">128x128</option>
-      <option value="256">256x256</option>
-    </select>
-    <button id="create-grid">Izgara Oluştur</button>
-  </div>
-  <div id="canvas-container">
-    <!-- Burada piksel canvas'i olacak -->
-  </div>
-  <div id="color-palette">
-    <!-- Renk paleti burada olacak -->
-  </div>
-  <div id="zoom-level">
-    Yakınlaştırma Düzeyi: 100%
-  </div>
-</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
